@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    environment {
+        MAX_SIZE = 10
+        MIN_SIZE = 1
+    }
+    parameters {
+        string(name: 'Father', defaultValue: 'Vader', description: "Enter Your father's name")
+        text(name: 'PHRASE', description: 'Enter your favorite book', defaultValue: 'Idiot')
+        booleanParam(name: 'RUN_TESTS', description: 'Toogle to run tests', defaultValue: false)
+        choice(name: 'AWS_REGION', choices: ['us-east-1', 'us-east-2'])
+        password(name: 'DATABASE_PASSWORD', defaultValue: 'DATABASE_PASSWORD', description: 'Enter the database password')
+    }
+    stages {
+        stage('Default Scale') {
+            steps {
+                echo "MAX_SIZE = ${env.MAX_SIZE}"
+                echo "MIN_SIZE = ${env.MIN_SIZE}"
+            }
+        }
+        stage('Scale by 10x') {
+            environment {
+                MAX_SIZE = 100
+                MIN_SIZE = 10
+            }
+            steps {
+                echo "MAX_SIZE = ${env.MAX_SIZE}"
+                echo "MIN_SIZE = ${env.MIN_SIZE}"
+            }
+        }
+    }
+}
